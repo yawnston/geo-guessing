@@ -9,6 +9,13 @@ PREDICT_USING_TOP_K_PROBABILITIES = 8
 
 
 def predict_location(probabilities: List[float]) -> Tuple[float, float]:
+    """Given a list of class probabilities inferred by the model,
+    return the coordinates which the model should guess.
+
+    `probabilities[i]` corresponds to the probability of square with
+    ID `i` being chosen. The probabilities do not necessary need to form
+    a distribution, since softmax is applied to them during prediction.
+    """
     sorted_indexes = np.argsort(probabilities)
     top_indexes = sorted_indexes[-PREDICT_USING_TOP_K_PROBABILITIES:]
 

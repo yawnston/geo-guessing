@@ -50,6 +50,10 @@ class GeoModel:
 
         self.net = models.resnet18(pretrained=True)
         self.num_features = self.net.fc.in_features
+        # Our network doesn't use softmax as the last layer, since we use
+        # CrossEntropy loss which already implicitly does softmax,
+        # and softmax isn't idempotent. So we manually add softmax
+        # during inference.
         self.net.fc = nn.Linear(self.num_features, len(self.class_names))
 
         self.net = self.net.to(self.device)

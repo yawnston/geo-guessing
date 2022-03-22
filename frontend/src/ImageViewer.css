@@ -1,0 +1,13 @@
+#imageViewer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+#geoImage {
+    border: 3px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+}

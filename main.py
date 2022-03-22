@@ -2,6 +2,7 @@ import base64
 from io import BytesIO
 from typing import List, Tuple
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
 from guessing import distance, predict_location, score
@@ -10,6 +11,20 @@ from model import GeoModel
 from settings import SETTINGS
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 model = GeoModel()
 model.load_from_disk()
 

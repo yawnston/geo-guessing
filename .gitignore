@@ -1,6 +1,7 @@
 .env.local
 data/
 valdata/
+out.jpeg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
