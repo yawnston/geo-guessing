@@ -54,9 +54,6 @@ def get_problem() -> GetProblemResponse:
     image.save(image_bytes, format="JPEG")
     image_base64 = base64.b64encode(image_bytes.getvalue())
 
-    # DEBUG
-    image.save("out.jpeg")
-
     predicted_location = predict_location(probabilities)
     predicted_distance = distance(predicted_location, correct_location)
     predicted_score = score(predicted_distance)

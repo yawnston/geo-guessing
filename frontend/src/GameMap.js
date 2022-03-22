@@ -15,16 +15,32 @@ function PickedMarker(props) {
         },
     });
 
-    return props.playerPosition === null ? null : (
+    return props.playerPosition == null ? null : (
         <Marker position={props.playerPosition} >
             <Tooltip permanent={true}>Your guess</Tooltip>
         </Marker>
     )
 }
 
+function CorrectMarker(props) {
+    return props.correctPosition == null ? null : (
+        <Marker position={props.correctPosition} >
+            <Tooltip permanent={true}>Correct location</Tooltip>
+        </Marker>
+    )
+}
+
+function AiMarker(props) {
+    return props.aiPosition == null ? null : (
+        <Marker position={props.aiPosition} >
+            <Tooltip permanent={true}>AI's guess</Tooltip>
+        </Marker>
+    )
+}
+
 function GameMap(props) {
     return (
-        <MapContainer center={{ lat: 52.0, lng: 14.0 }} zoom={13} scrollWheelZoom={true}>
+        <MapContainer center={{ lat: 49.0, lng: 14.5 }} zoom={5} scrollWheelZoom={true}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -32,6 +48,9 @@ function GameMap(props) {
             <PickedMarker isPickingEnabled={props.isPickingEnabled}
                 playerPosition={props.playerPosition}
                 onPlayerPositionChange={props.onPlayerPositionChange} />
+
+            <CorrectMarker correctPosition={props.correctPosition} />
+            <AiMarker aiPosition={props.aiPosition} />
         </MapContainer>
     )
 }
