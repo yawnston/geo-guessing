@@ -130,4 +130,5 @@ datasets from Google Maps Street View
 - `guessing.py`: AI guessing algorithm, distance and score
 measurements
 - `settings.py`: loading and storing app settings
+- `cloud_vision.py`: client for Cloud Vision (not used in the end)
 - `frontend` folder: React frontend code (not too interesting)
