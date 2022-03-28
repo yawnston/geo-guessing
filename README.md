@@ -19,6 +19,29 @@ Python 3.8 or higher w/ pip, npm 8.3 or higher
 `python main.py` or running `Debug API` debug config in VS Code
 will run the backend at `localhost:8081`.
 
+### Training the network yourself
+
+If you want to train the network for yourself because you are
+curious or bored (or both), you first have to download a dataset
+of images. You should have a folder structure like
+`data/<square_id>/<number>.jpg` for training images, and
+`valdata/<square_id>/<number.jpg>` for validation images.
+The functions in `get_dataset.py` can help you do that.
+However, be aware that you need a Google Cloud Platform
+API key configured in the code settings for that.
+See the comments in `settings.py` for more details.
+
+Then configure the network parameters as you wish in `model.py`.
+Mainly you want to change the number of epochs, but you can
+try using a different optimizer etc. also.
+
+When ready, run `python model.py` and the model will get trained,
+and then its parameters will be saved to a file on the configured
+path.
+
+*Note*: training it on a CPU will probably be super slow, so you
+may want to train it on a GPU using a GPU-enabled PyTorch install.
+
 ### Install requirements - frontend
 
 `npm install`
@@ -78,7 +101,7 @@ requires a **LOT** of data, which is a problem because getting
 images from Street View's API costs real money. Therefore I decided
 to go with a pre-trained network for image classifications
 (ResNet 18), which is then fine-tuned for our task using
-a custom dataset.
+a custom dataset. The deep learning framework used is PyTorch.
 
 This dataset consists of approximately 200 images for each
 document class (map square) for training data, as well as
@@ -106,4 +129,5 @@ datasets from Google Maps Street View
 - `model.py`: everything related to the neural network
 - `guessing.py`: AI guessing algorithm, distance and score
 measurements
+- `settings.py`: loading and storing app settings
 - `frontend` folder: React frontend code (not too interesting)
