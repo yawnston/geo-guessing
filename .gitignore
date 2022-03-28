@@ -1,6 +1,6 @@
 .env.local
-data/
-valdata/
+data/**/*.jpg
+valdata/**/*.jpg
 out.jpeg
 
 # Byte-compiled / optimized / DLL files
