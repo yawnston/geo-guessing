@@ -23,4 +23,5 @@ class Settings(BaseSettings):
         case_sensitive = False
 
 
+# Global app settings instance
 SETTINGS = Settings()

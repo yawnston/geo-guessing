@@ -7,6 +7,8 @@ import folium
 
 @dataclass
 class Square:
+    """Represents a single square on the map grid used for AI guessing."""
+
     left: float
     right: float
     top: float
@@ -48,6 +50,10 @@ SQUARE_HORIZONTAL_POINTS = np.linspace(LEFT, RIGHT, num=NUM_HORIZONTAL_SQUARES +
 
 
 def create_square(id: int) -> Square:
+    """Given a square id (sequential number from top left), create the appropriate
+    square for the map grid. This means calculating the square's latitude
+    and longitude from the grid's parameters.
+    """
     left = SQUARE_HORIZONTAL_POINTS[id % NUM_HORIZONTAL_SQUARES]
     right = SQUARE_HORIZONTAL_POINTS[(id % NUM_HORIZONTAL_SQUARES) + 1]
     top = SQUARE_VERTICAL_POINTS[id // NUM_HORIZONTAL_SQUARES]
@@ -63,6 +69,7 @@ def create_square(id: int) -> Square:
     )
 
 
+# The square grid used for AI guesses
 SQUARES = [create_square(id) for id in range(NUM_SQUARES)]
 
 
@@ -92,9 +99,13 @@ def get_square_for_coords(lat: float, long: float) -> Optional[Square]:
 
 
 def plot_grid_to_file() -> None:
+    """Visualize the AI guessing grid, creating an interactive HTML map and saving it
+    to a file on disk.
+    """
     square_map = folium.Map(prefer_canvas=True)
 
     for square in SQUARES:
+        # Draw the square's boundaries
         folium.PolyLine(
             [
                 (square.top, square.left),
@@ -107,13 +118,19 @@ def plot_grid_to_file() -> None:
             weight=2.5,
             opacity=1,
         ).add_to(square_map)
-        folium.Marker(location=square.center, icon=folium.DivIcon(
-            icon_size=(150, 36),
-            icon_anchor=(7, 20),
-            html=f'<div style="font-size: 18pt; color : black">{square.id}</div>',
-        )).add_to(square_map)
+
+        # Add a label with the square ID to the center of it
+        folium.Marker(
+            location=square.center,
+            icon=folium.DivIcon(
+                icon_size=(150, 36),
+                icon_anchor=(7, 20),
+                html=f'<div style="font-size: 18pt; color : black">{square.id}</div>',
+            ),
+        ).add_to(square_map)
 
     square_map.save("grid.html")
+
 
 if __name__ == "__main__":
     plot_grid_to_file()

@@ -11,6 +11,11 @@ from settings import _ROOT_DIR, SETTINGS
 
 
 def get_street_view_image(location: str) -> Optional[BytesIO]:
+    """Given a `location` (can be either lat,lon or an address), attempt to get
+    a street view image from that location. Note that the location does not need
+    to be precise, a radius of 5km from the given address is searched for an
+    available panorama.
+    """
     meta_params = {
         "location": location,
         "key": SETTINGS.google_api_key,
@@ -37,6 +42,9 @@ def get_street_view_image(location: str) -> Optional[BytesIO]:
 
 
 def save_image_to_file(image: BytesIO, folder: str, train=True) -> None:
+    """Save a given RGB image to a file for the specified class and
+    training/validation set. Automatically generates incrementing file names.
+    """
     type_folder = "data" if train else "valdata"
     folder_path = _ROOT_DIR / type_folder / folder
     Path.mkdir(folder_path, exist_ok=True, parents=True)
@@ -57,9 +65,15 @@ def save_image_to_file(image: BytesIO, folder: str, train=True) -> None:
 
 
 if __name__ == "__main__":
+    # For each square, get this many images from Street View
+    NUM_IMAGES_TO_GET_PER_SQUARE = 1
+
+    # Set to `False` if you want the images saved as validation instead
+    IS_TRAIN_DATASET = True
+
     for square in SQUARES:
-        square_points = square.sample_points(1)
+        square_points = square.sample_points(NUM_IMAGES_TO_GET_PER_SQUARE)
         for point in square_points:
             img = get_street_view_image(f"{point[0]}, {point[1]}")
             if img:
-                save_image_to_file(img, f"{square.id}", train=True)
+                save_image_to_file(img, f"{square.id}", train=IS_TRAIN_DATASET)

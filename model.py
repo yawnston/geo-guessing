@@ -14,6 +14,12 @@ from grid import SQUARES
 
 
 class GeoModel:
+    """Encapsulates the creation, training, saving, loading and evaluation
+    of the geographic prediction model.
+    
+    The selected map region is divided up into squares, and the model predicts
+    the probability of the input image being in any given square.
+    """
     def __init__(self):
         self.data_transforms = {
             "train": transforms.Compose(
@@ -31,7 +37,6 @@ class GeoModel:
             ),
         }
 
-        # TODO: create better organized validation dataset
         self.image_datasets = {
             "train": datasets.ImageFolder("data", self.data_transforms["train"]),
             "val": datasets.ImageFolder("valdata", self.data_transforms["val"]),
@@ -139,6 +144,11 @@ class GeoModel:
         return model
 
     def train(self, num_epochs=25):
+        """Fine-tunes the pre-trained model using the parameters specified in this class's
+        `__init__`. The trained model is then stored in this class for usage.
+
+        Takes a handful of minutes per epoch on a 30-series Nvidia CUDA-enabled GPU.
+        """
         self.net = self._train_model(
             self.net,
             self.criterion,
@@ -148,9 +158,11 @@ class GeoModel:
         )
 
     def save_to_disk(self, path: str = "models/resnet18v1"):
+        """Saves the model parameters to disk using the specified `path`."""
         torch.save(self.net.state_dict(), path)
 
     def load_from_disk(self, path: str = "models/resnet18v1"):
+        """Loads the model parameters from disk using the specified `path`."""
         self.net.load_state_dict(torch.load(path))
         self.net.eval()
 
@@ -187,7 +199,8 @@ class GeoModel:
 
 
 if __name__ == "__main__":
-    print("Model file")
+    # This main method will train the model and save it to disk.
+
     # Load pre-trained model and finetune the weight by training it.
     # The model chosen is ResNet18, which is the 18-layer version of ResNet
     # pere-trained on the ImageNet dataset.

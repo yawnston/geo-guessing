@@ -12,6 +12,7 @@ from settings import SETTINGS
 
 app = FastAPI()
 
+# Required CORS middleware for localhost development
 origins = [
     "http://localhost",
     "http://localhost:3000",
@@ -25,6 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Pre-load an instance of the model for incoming requests
 model = GeoModel()
 model.load_from_disk()
 
@@ -45,7 +47,7 @@ def get_problem() -> GetProblemResponse:
     and score which the AI guessed, the correct location,
     and the distance guessed by the AI.
     """
-    # TODO: save correct location when downloading from Google Street View?
+    # TODO: save more accurate location when downloading from Google Street View?
     # Currently the "correct location" is just the center of the square where
     # the image is taken from.
     image, probabilities, correct_location = model.predict_random_image()
@@ -97,6 +99,7 @@ def post_guess(params: PostGuessParams) -> PostGuessResponse:
 
 
 if __name__ == "__main__":
+    # Start the API on the configured port
     uvicorn.run(
         "main:app",
         host=SETTINGS.api_bind_host,
