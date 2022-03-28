@@ -74,8 +74,7 @@ export default function GameOverDialog(props) {
                         You scored {props.playerScoreTotal} points while the AI scored {props.aiScoreTotal} points.
                     </Typography>
                     <Typography gutterBottom>
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                        Are you unhappy with your result? Think you can do better? Then play again!
                     </Typography>
                 </DialogContent>
                 <DialogActions>

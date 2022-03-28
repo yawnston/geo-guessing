@@ -5,7 +5,7 @@ import geopy.distance
 
 from grid import SQUARES, Square
 
-PREDICT_USING_TOP_K_PROBABILITIES = 8
+PREDICT_USING_TOP_K_PROBABILITIES = 3
 
 
 def predict_location(probabilities: List[float]) -> Tuple[float, float]:
